@@ -22,7 +22,8 @@ GPU_MEM=`nvidia-smi --query-gpu=memory.total --format=csv,noheader -i 0 | awk '{
 if [ $GPU_MEM -gt 15000 ] ; then BATCH_SIZE=256; else BATCH_SIZE=128; fi
 
 # Training
-mpirun -np $gpus -hostfile hosts -mca plm_rsh_no_tree_spawn 1 \
+#mpirun -np $gpus -hostfile hosts -mca plm_rsh_no_tree_spawn 1 \
+mpirun -np $gpus -mca plm_rsh_no_tree_spawn 1 \
 	-bind-to socket -map-by slot --allow-run-as-root \
 	-x HOROVOD_HIERARCHICAL_ALLREDUCE=1 -x HOROVOD_FUSION_THRESHOLD=16777216 \
 	-x NCCL_MIN_NRINGS=4 -x LD_LIBRARY_PATH -x PATH -mca pml ob1 -mca btl ^openib \
