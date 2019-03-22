@@ -26,7 +26,7 @@ mpirun -np $gpus -hostfile hosts -mca plm_rsh_no_tree_spawn 1 \
 	-x NCCL_MIN_NRINGS=4 -x LD_LIBRARY_PATH -x PATH -mca pml ob1 -mca btl ^openib \
 	-x TF_CPP_MIN_LOG_LEVEL=0 \
 	python -W ignore train_imagenet_resnet_hvd.py \
-	--data_dir ~/data/tf-imagenet/ --num_epochs 90 -b $BATCH_SIZE \
+	--data_dir /opt/ml/input/data/training --num_epochs 90 -b $BATCH_SIZE \
 	--lr_decay_mode poly --warmup_epochs 10 --clear_log
 
 NUM_GPUS_MASTER=`nvidia-smi -L | wc -l`
@@ -40,5 +40,5 @@ mpirun -np $NUM_GPUS_MASTER -mca plm_rsh_no_tree_spawn 1 \
 	-x NCCL_MIN_NRINGS=4 -x LD_LIBRARY_PATH -x PATH -mca pml ob1 -mca btl ^openib \
 	-x TF_CPP_MIN_LOG_LEVEL=0 \
 	python -W ignore train_imagenet_resnet_hvd.py \
-	--data_dir ~/data/tf-imagenet/ --num_epochs 90 \
+	--data_dir /opt/ml/input/data/training --num_epochs 90 \
 	--eval --num_gpus $gpus
