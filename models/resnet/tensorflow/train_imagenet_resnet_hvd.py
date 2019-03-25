@@ -1106,7 +1106,7 @@ def main():
                 tf.Session(config=config).run(barrier)
                 if 'top1' not in c:
                     continue
-                rank0log(logger,'{:5d}  {:5.1f}  {:5.3f}  {:6.2f}  {:6.2f}  UTC:{time}'
+                rank0log(logger,'step={:5d}  epoch={:5.1f}  top1={:5.3f}  top5={:6.2f}  loss={:6.2f}  checkpoint_time=UTC:{time}'
                          .format(c['step'],
                                  c['epoch'],
                                  c['top1'] * 100,
