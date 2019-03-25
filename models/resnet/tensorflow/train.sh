@@ -31,7 +31,7 @@ mpirun -np $gpus -mca plm_rsh_no_tree_spawn 1 \
 	python -W ignore train_imagenet_resnet_hvd.py \
 	--data_dir /opt/ml/input/data/training --log_dir /opt/ml/model/imagenet_resnet \
 	--num_epochs 90 -b $BATCH_SIZE \
-	--lr_decay_mode poly --warmup_epochs 10 --clear_log
+	--lr_decay_mode poly --warmup_epochs 10 --clear_log |& grep -v "Read -1"
 
 NUM_GPUS_MASTER=`nvidia-smi -L | wc -l`
 
@@ -46,4 +46,4 @@ mpirun -np $NUM_GPUS_MASTER -mca plm_rsh_no_tree_spawn 1 \
 	python -W ignore train_imagenet_resnet_hvd.py \
 	--data_dir /opt/ml/input/data/training --log_dir /opt/ml/model/imagenet_resnet \
 	--num_epochs 90 \
-	--eval --num_gpus $gpus
+	--eval --num_gpus $gpus |& grep -v "Read -1"
